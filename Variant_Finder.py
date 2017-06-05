@@ -7,12 +7,50 @@ This code produces the location, variant type, allele frequency, and other data
 of protein domains based on a given transcript ID.
 Imports CSV file and exports CSV
 """
+##########################Logging Info##########################
+# CRITICAL - 50 - failure, application must close
+# ERROR - 40 - function failed
+# WARNING - 30 - unexpected ocurrance
+# INFO - 20 - confirmation things went expected
+# DEBUG - 10 - detailed info
+################################################################
 
-import requests, sys, re, pandas as pd, logging, urllib2, time
+import requests, sys, re, pandas as pd, logging, urllib2, time, argparse
 
+#Argument Parsing
+parser = argparse.ArgumentParser()
+
+parser.add_argument("in_File", 
+					help="File containing ID's you would like to find variants for.")
+parser.add_argument("ex_File",
+					help="File exported from program with all the significant variants for provided IDs.")
+parser.add_argument("col_name",
+					help="Name of colummn that ID's are held in.")
+parser.add_argument("ID_type", choices = ["transcripts", "genes"],
+					help="Are you parsing through GeneIDs or Transcript IDs?")
+parser.add_argument("-s", "--start", type=int,
+					help="Row you would like to start finding variants from.")
+parser.add_argument("-e", "--end", type=int,
+					help="Row you would like to stop finding variants from.")
+
+args = parser.parse_args()
+
+
+#main method
 def main():
 	print str(sys.argv)
-	in_File, ex_File, start, end = sys.argv[1:]
+
+	#in_File, Ex_file, cole_name, ID_type assignment
+	print "Reading file " + args.in_File
+	in_File = args.in_File
+	print "Will export file " + args.ex_File
+	ex_File = args.ex_File
+	print "IDs should be in column " + args.col_name
+	col_name = args.col_name
+	print "IDs should be " + args.ID_type
+	ID_type = args.ID_type
+
+
 	
 	"""COUNTERS:"""
 	geneNumber = 0
@@ -21,56 +59,79 @@ def main():
 	#I/O
 	totalStart = time.time()
 	Largedf = pd.read_csv(in_File)
-	print type(start)
-	print end
-	print "PRINTING LARGEdf"
-	print Largedf
+	#print type(start)
+	#print end
+	#print "PRINTING LARGEdf"
+	#print Largedf
 	#Smalldf = Largedf.head(5)
+	if args.start and not args.end:
+		start = sys.args.start
+		end = len(Largedf)
+	elif not args.start and args.end:
+		start = 0
+		end = args.end
+	elif args.start and args.end:
+		if args.start >= args.end:
+			print "End must be greater than start"
+			exit()
+		start = args.start
+		end = args.end
+	else:
+		start = 0
+		end = len(Largedf)
+
+	print "Running from {} to {} .".format(start,end)
 	Smalldf = Largedf[int(start):int(end)]
 	#use start and end to create chunk
 	#Imports csv
-	print "PRINTING SMALLdf"
+	print "PRINTING what is will be ran through script."
 	print Smalldf
 	#print Smalldf
 	genes = []
-	for index, row in Smalldf.iterrows():
-		genes.append(row['ensembl_gene_id'])
-		#allows to run through list of transcripts
-	#print "Printing genes"
-	#print genes
 	transcripts_frames=[]
-	geneNumber = len(genes)
-	for item in genes:
-		start = time.time()
-		server = "http://exac.hms.harvard.edu/"
-		ext = "/rest/gene/%s" % (item)
-		r = requests.get(server+ext, headers={ "Content-Type" : "application/json"})
-		end = time.time()
-		timePassed = end-start
-		print "API: Time to get gene info through Exac: " + str(timePassed)
-		
-		
-		start = time.time()
-		try:
-			gene_info = r.json()
-			#if gene_info is not None:
-			transcripts_in_gene = gene_info['transcripts_in_gene']
+
+	if ID_type == "genes":
+		for index, row in Smalldf.iterrows():
+			#allows to run through list of transcripts
+			genes.append(row[col_name])
+		#print "Printing genes"
+		#print genes
+	
+
+
+		geneNumber = len(genes)
+		for item in genes:
+			start = time.time()
+			server = "http://exac.hms.harvard.edu/"
+			ext = "/rest/gene/%s" % (item)
+			r = requests.get(server+ext, headers={ "Content-Type" : "application/json"})
 			end = time.time()
 			timePassed = end-start
-			print "Time to get transcripts_in_gene info: " + str(timePassed)
-			transcripts = []
-			#transcripts_frames = []
-			for index in range(len(transcripts_in_gene)):
-				transcripts.append(transcripts_in_gene[index]['transcript_id'])
-			for index in range(len(transcripts)):
-				transcripts_frames.append(transcripts[index])
-		except KeyError as err:
-			loggin.warning("Problem with accessing Exac")
-		except ValueError as err:
-			logging.warning("gene not found in Exac")
+			print "API: Time to get gene info through Exac: " + str(timePassed)
+			
+			
+			start = time.time()
+			try:
+				gene_info = r.json()
+				#if gene_info is not None:
+				transcripts_in_gene = gene_info['transcripts_in_gene']
+				end = time.time()
+				timePassed = end-start
+				print "Time to get transcripts_in_gene info: " + str(timePassed)
+				transcripts = []
+				#transcripts_frames = []
+				for index in range(len(transcripts_in_gene)):
+					transcripts.append(transcripts_in_gene[index]['transcript_id'])
+				for index in range(len(transcripts)):
+					transcripts_frames.append(transcripts[index])
+			except KeyError as err:
+				loggin.warning("Problem with accessing Exac")
+			except ValueError as err:
+				logging.warning("gene not found in Exac")
 
-
-
+	elif ID_type == "transcripts":
+		for index, row in Smalldf.iterrows():
+			transcripts_frames.append(row[col_name])
 
 	frames = []
 	empty = []
@@ -78,6 +139,7 @@ def main():
 		print "still running"
 		#print item
 		try:
+			#call to get_info
 			check = get_info(item)
 			#item_01 = VariantFinder(item)
 			frames.append(check)
@@ -101,7 +163,7 @@ def main():
 	#exports CSV
 		
 		
-
+#get_info method
 def get_info(transcript):
 	logger = logging.getLogger('VariantFinder')
 	ch = logging.StreamHandler()
@@ -111,22 +173,6 @@ def get_info(transcript):
 	logger.addHandler(ch)
 
 
-	# CRITICAL - 50 - failure, application must close
-	# ERROR - 40 - function failed
-	# WARNING - 30 - unexpected ocurrance
-	# INFO - 20 - confirmation things went expected
-	# DEBUG - 10 - detailed info
-
-
-
-
-	#import packagges used in method
-	#class VariantFinder(object):
-	#def __init__(self, transcript):
-	#	self.transcript = transcript
-	#	#logger.info("Item created: '{}'").format(self.transcript)
-	#################################Transcript Method#############################
-	
 	server = "https://rest.ensembl.org"
 	ext = "/lookup/id/%s?expand=1" % (transcript)
 
@@ -231,7 +277,7 @@ def get_info(transcript):
 	
 		var = []
 		for item in pro_var:
-			if 'stop_gained' in item or 'frameshift_variant' in item or 'splice_donor_variant' in item or 'splice_acceptor_variant' in item:
+			if 'stop_gained' in item or 'frameshift_variant' in item or 'splice_donor_variant' in item or 'splice_acceptor_variant' in item or 'synonymous_variant' in item:
 				
 				var.append(item)
 		#filters only significant(red) consequences
@@ -357,6 +403,6 @@ def get_info(transcript):
 
 
 
-
+#main method call
 if __name__ == "__main__":
 	main()
