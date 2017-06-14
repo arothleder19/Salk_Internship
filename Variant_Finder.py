@@ -54,6 +54,7 @@ def main():
 	
 	"""COUNTERS:"""
 	geneNumber = 0
+	#global transcriptNumber 
 	transcriptNumber = 0
 	
 	#I/O
@@ -101,6 +102,7 @@ def main():
 
 		geneNumber = len(genes)
 		for item in genes:
+			geneNumber += 1
 			start = time.time()
 			server = "http://exac.hms.harvard.edu/"
 			ext = "/rest/gene/%s" % (item)
@@ -164,7 +166,7 @@ def main():
 		
 		
 #get_info method
-def get_info(transcript):
+def get_info(transcript):	
 	logger = logging.getLogger('VariantFinder')
 	ch = logging.StreamHandler()
 	ch.setLevel(logging.DEBUG)
@@ -176,6 +178,7 @@ def get_info(transcript):
 	server = "https://rest.ensembl.org"
 	ext = "/lookup/id/%s?expand=1" % (transcript)
 
+	#transcriptNumber += 1
 	print transcript
 
 	logging.debug("have used transcript ID for restAPI")
@@ -398,7 +401,7 @@ def get_info(transcript):
 					#if there is no variant will still create empty dictionary
 					#prevents concatonation error
 			transcriptresult = pd.concat(frames)
-			return transcriptresult	
+			return transcriptresult
 
 
 
