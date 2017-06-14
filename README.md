@@ -35,9 +35,13 @@ usage: Variant_Finder.py [-h] [-s START] [-e END]
   ```
   
   ```
-  python2 Variant_Finder.py Transcripts.csv ex_Transcripts_ALL.csv TranscriptID transcripts -s 100 -e 200
+  python2 Variant_Finder.py Transcripts.csv ex_Transcripts_100_to_200.csv TranscriptID transcripts -s 100 -e 200
   ```
   
   ```
   python2 Variant_Finder.py Genes.csv ex_Genes_0_to_100.csv GeneID genes -e 100
+  ```
+  
+  ```
+  python2 Variant_Finder.py Genes.csv ex_Genes_500_to_END.csv GeneID genes -s 500
   ```
