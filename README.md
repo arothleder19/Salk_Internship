@@ -1,8 +1,8 @@
 This repo has everything you need to get some data on the variants within genes.
 
 # Running The Program Variant_Finder.py (in terminal):
-### General
-  * python2 Variant_Finder.py -h --help:
+### General:
+  * python2 Variant_Finder.py -h --help
   
   * usage: Variant_Finder.py [-h] [-s START] [-e END] in_File ex_File col_name {transcripts,genes}
 
