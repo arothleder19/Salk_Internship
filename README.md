@@ -2,18 +2,22 @@ This repo has everything you need to get some data on the variants within genes.
 
 RUNNING THE PROGRAM (in terminal):
 
+
 python2 Variant_Finder.py -h --help:
+
 
 usage: Variant_Finder.py [-h] [-s START] [-e END]
                          in_File ex_File col_name {transcripts,genes}
 
+
 positional arguments:
 
-  in_File               File containing ID's you would like to find variants
-                        for.
+
+  in_File               File containing ID's you would like to find variants for.
                         
-  ex_File               File exported from program with all the significant
-                        variants for provided IDs.
+                        
+  ex_File               File exported from program with all the significant variants for provided IDs.
+                        
                         
   col_name              Name of colummn that ID's are held in.
   
