@@ -8,6 +8,7 @@ usage: Variant_Finder.py [-h] [-s START] [-e END]
                          in_File ex_File col_name {transcripts,genes}
 
 positional arguments:
+
   in_File               File containing ID's you would like to find variants
                         for.
                         
