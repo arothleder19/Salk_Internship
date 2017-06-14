@@ -1,6 +1,6 @@
 This repo has everything you need to get some data on the variants within genes.
 
-# Variant_Finder.py Running The Program (in terminal):
+# Running The Program Variant_Finder.py (in terminal):
 
 python2 Variant_Finder.py -h --help:
 
