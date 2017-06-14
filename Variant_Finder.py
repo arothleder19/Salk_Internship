@@ -65,23 +65,40 @@ def main():
 	#print "PRINTING LARGEdf"
 	#print Largedf
 	#Smalldf = Largedf.head(5)
-	if args.start and not args.end:
-		start = sys.args.start
+	print "SIZE OF LARGEDF IS " + str(len(Largedf))
+	if (args.start != None) and (args.end == None):
+		print "START ONLY"
+		start = args.start
 		end = len(Largedf)
-	elif not args.start and args.end:
+
+	elif (args.start == None) and (args.end != None):
+		print "END ONLY"
 		start = 0
 		end = args.end
-	elif args.start and args.end:
-		if args.start >= args.end:
-			print "End must be greater than start"
-			exit()
+
+	elif (args.start != None) and (args.end != None):
+		print "BOTH EXIST"
 		start = args.start
 		end = args.end
+		
 	else:
+		print "NEITHER EXIST"
 		start = 0
 		end = len(Largedf)
 
-	print "Running from {} to {} .".format(start,end)
+	print "Start index is " + str(start) + " and end index is " + str(end)
+
+	if start >= end:
+		print "End must be greater than start!!!"
+		exit()
+	elif start < 0:
+		print "Start index must be non negative!!!"
+		exit()
+	elif end > len(Largedf) or (end == 0):
+		print "Ending index must be less than or equal to size of dataframe!!!"
+		exit()
+
+	print "Running from {} to {}.".format(start,end)
 	Smalldf = Largedf[int(start):int(end)]
 	#use start and end to create chunk
 	#Imports csv
@@ -98,8 +115,6 @@ def main():
 		#print "Printing genes"
 		#print genes
 	
-
-
 		geneNumber = len(genes)
 		for item in genes:
 			geneNumber += 1
