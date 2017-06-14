@@ -50,4 +50,11 @@ This repo has everything you need to get some data on the variants within genes.
 # Test Folder 
   * Holds any test files to test on script.
   
+# Variance_Manipulation.ipynb
+  * Jupyter iPython Notebook that allows and data analysis, mining, cleaning, visualisation etc. with data produced by Variant_Finder.py
+  
+# Variant_Domain_Heatmap.R
+ * R script that produces a Heatmap of protein domain to variance frequency.
+ * Takes dataframe as input.
+ * Can use the data produced by Variant_Finder.py.
   
