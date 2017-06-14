@@ -47,3 +47,10 @@ usage: Variant_Finder.py [-h] [-s START] [-e END]
   ```
 
 # Ex_Files Folder
+  * A folder that holds the output files of variants from running Variant_Finder.py
+  * Fututure applcation may have folders within here for different projects.
+  
+# Test Folder 
+  * Holds any test files to test on script.
+  
+  
