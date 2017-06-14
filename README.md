@@ -11,22 +11,21 @@ usage: Variant_Finder.py [-h] [-s START] [-e END]
 
 ### Positional Arguments:
 
-
-  in_File               File containing ID's you would like to find variants for.
+  * in_File               File containing ID's you would like to find variants for.
                                                
-  ex_File               File exported from program with all the significant variants for provided IDs.
+  * ex_File               File exported from program with all the significant variants for provided IDs.
                                            
-  col_name              Name of colummn that ID's are held in.
+  * col_name              Name of colummn that ID's are held in.
   
-  {transcripts,genes}   Are you parsing through GeneIDs or Transcript IDs?
+  * {transcripts,genes}   Are you parsing through GeneIDs or Transcript IDs?
 
 ### Optional Arguments:
 
-  -h, --help:                 Show this help message and exit
+  * -h, --help:                 Show this help message and exit
   
-  -s START, --start START:    Row you would like to start finding variants from.
+  * -s START, --start START:    Row you would like to start finding variants from.
   
-  -e END, --end END:          Row you would like to stop finding variants from.
+  * -e END, --end END:          Row you would like to stop finding variants from.
 
 ### Examples:
 
