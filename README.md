@@ -9,7 +9,7 @@ usage: Variant_Finder.py [-h] [-s START] [-e END]
                          in_File ex_File col_name {transcripts,genes}
 
 
-# Positional Arguments:
+### Positional Arguments:
 
 
   in_File               File containing ID's you would like to find variants for.
@@ -22,7 +22,7 @@ usage: Variant_Finder.py [-h] [-s START] [-e END]
   
   {transcripts,genes}   Are you parsing through GeneIDs or Transcript IDs?
 
-# Optional Arguments:
+### Optional Arguments:
 
   -h, --help            show this help message and exit
   
@@ -31,7 +31,7 @@ usage: Variant_Finder.py [-h] [-s START] [-e END]
   
   -e END, --end END     Row you would like to stop finding variants from.
 
-# Examples:
+### Examples:
 
   ```
   python2 Variant_Finder.py Transcripts.csv ex_Transcripts_ALL.csv Transcript transcripts
