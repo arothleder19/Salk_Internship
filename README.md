@@ -1,7 +1,6 @@
 This repo has everything you need to get some data on the variants within genes.
 
-RUNNING THE PROGRAM (in terminal):
-
+#RUNNING THE PROGRAM (in terminal):
 
 python2 Variant_Finder.py -h --help:
 
@@ -10,7 +9,7 @@ usage: Variant_Finder.py [-h] [-s START] [-e END]
                          in_File ex_File col_name {transcripts,genes}
 
 
-positional arguments:
+#positional arguments:
 
 
   in_File               File containing ID's you would like to find variants for.
@@ -23,7 +22,7 @@ positional arguments:
   
   {transcripts,genes}   Are you parsing through GeneIDs or Transcript IDs?
 
-optional arguments:
+#optional arguments:
 
   -h, --help            show this help message and exit
   
@@ -32,7 +31,7 @@ optional arguments:
   
   -e END, --end END     Row you would like to stop finding variants from.
 
-examples:
+#examples:
 
   python2 Variant_Finder.py Transcripts.csv ex_Transcripts_ALL.csv Transcript transcripts
 
