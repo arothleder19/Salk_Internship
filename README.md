@@ -45,3 +45,5 @@ usage: Variant_Finder.py [-h] [-s START] [-e END]
   ```
   python2 Variant_Finder.py Genes.csv ex_Genes_500_to_END.csv GeneID genes -s 500
   ```
+
+# Ex_Files Folder
